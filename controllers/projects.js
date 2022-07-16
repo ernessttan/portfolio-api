@@ -2,7 +2,14 @@ const Project = require('../models/project');
 
 // Function to get all projects
 async function getProjects(req, res, next) {
-
+  let projects;
+  try {
+    projects = await Project.find();
+  } catch (err) {
+    const error = new Error('Fetching projects failed', 500);
+    return next(error);
+  }
+  res.json({ projects: projects.map((project) => project.toObject({ getters: true })) });
 }
 
 // Function to get a project by its id
