@@ -49,7 +49,30 @@ async function createProject(req, res, next) {
 
 // Function to edit a project
 async function editProject(req, res, next) {
+  const projectId = req.params.pid;
+  const {
+    title, description, image, tags,
+  } = req.body;
 
+  let projectToEdit;
+  try {
+    projectToEdit = await Project.findById(projectId);
+  } catch (err) {
+    const error = new Error('Could not find project', 404);
+    return next(error);
+  }
+  projectToEdit.title = title;
+  projectToEdit.description = description;
+  projectToEdit.image = image;
+  projectToEdit.tags = tags;
+
+  try {
+    await projectToEdit.save();
+  } catch (err) {
+    const error = new Error('Could not edit project', 500);
+    return next(error);
+  }
+  res.status(201).json({ message: 'Updated Project' });
 }
 
 // Function to delete a project
