@@ -14,7 +14,16 @@ async function getProjects(req, res, next) {
 
 // Function to get a project by its id
 async function getProjectById(req, res, next) {
+  const projectId = req.params.pid;
 
+  let foundProject;
+  try {
+    foundProject = await Project.findById(projectId);
+  } catch (err) {
+    const error = new Error('Could not find project by that id', 500);
+    return next(error);
+  }
+  res.status(201).json({ foundProject });
 }
 
 // Function to create a project
