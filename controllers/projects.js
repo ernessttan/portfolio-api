@@ -39,6 +39,22 @@ async function editProject(req, res, next) {
 // Function to delete a project
 async function deleteProject(req, res, next) {
   const projectId = req.params.pid;
+
+  let project;
+  try {
+    project = await Project.findById(projectId);
+  } catch (err) {
+    const error = new Error('Could not find project for this id', 404);
+    return next(error);
+  }
+
+  try {
+    await project.remove();
+  } catch (err) {
+    const error = new Error('Could not delete project', 500);
+    return next(error);
+  }
+  res.status(200).json({ message: 'Project Deleted' });
 }
 
 exports.getProjects = getProjects;
