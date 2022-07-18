@@ -23,7 +23,7 @@ async function getProjectById(req, res, next) {
     const error = new Error('Could not find project by that id', 500);
     return next(error);
   }
-  res.status(201).json({ foundProject });
+  res.status(201).json({ project: foundProject });
 }
 
 // Function to create a project
