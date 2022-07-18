@@ -22,6 +22,10 @@ const projectsRoutes = require('./routes/projects');
 
 app.use('/api/projects', projectsRoutes);
 
+app.get('/', (req, res) => {
+  res.send('Hello World');
+});
+
 app.use((error, req, res, next) => {
   if (res.headerSent) {
     return next(error);
