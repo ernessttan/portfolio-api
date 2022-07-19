@@ -2,11 +2,9 @@ const express = require('express');
 const mongoose = require('mongoose');
 require('dotenv').config();
 
-const uri = process.env.DATABASE_URI;
-
 const app = express();
 
-mongoose.connect(uri, { useUnifiedTopology: true, useNewUrlParser: true })
+mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.ehu9eib.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`, { useUnifiedTopology: true, useNewUrlParser: true })
   .then(() => {
     console.log('Connected to MongoDB');
     app.listen(process.env.PORT || 3000);
