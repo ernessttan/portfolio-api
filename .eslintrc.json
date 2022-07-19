@@ -12,7 +12,7 @@
     },
     "rules": {
         "semi": ["warn", "always"],
-        "quotes": ["warn", "single"],
+        "quotes": ["warn", "double"],
         "no-unused-vars": "off",
         "no-empty-function": "off",
         "consistent-return": "off"
