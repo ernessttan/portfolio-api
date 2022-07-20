@@ -1,5 +1,9 @@
+const fs = require("fs");
+const util = require("util");
 const Project = require("../models/project");
 const { uploadToS3, getFileFromS3 } = require("../s3");
+
+const unlinkFile = util.promisify(fs.unlink);
 
 // Function to get all projects
 async function getProjects(req, res, next) {
@@ -40,13 +44,18 @@ async function createProject(req, res, next) {
   let file;
   try {
     file = await uploadToS3(req.file);
+    await unlinkFile(req.file.path);
   } catch (err) {
     console.log(err);
   }
-  const { title, description, tags } = req.body;
+  const {
+    title, description, projectUrl, codeUrl, tags,
+  } = req.body;
   const createdProject = new Project({
     title,
     description,
+    projectUrl,
+    codeUrl,
     image: `http://localhost:3000/api/projects/images/${file.key}`,
     tags,
   });
