@@ -5,6 +5,9 @@ require("dotenv").config();
 
 const app = express();
 
+app.use(cors());
+app.use(express.json());
+
 mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.ehu9eib.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`, { useUnifiedTopology: true, useNewUrlParser: true })
   .then(() => {
     console.log("Connected to MongoDB");
@@ -14,9 +17,6 @@ mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD
   .catch((err) => {
     console.log(err);
   });
-
-app.use(cors());
-app.use(express.json());
 
 const projectsRoutes = require("./routes/projects");
 
